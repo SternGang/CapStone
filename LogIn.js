@@ -9,6 +9,3 @@ function checklog(){
 }
 
 logInButton.addEventListener("click",checklog);
-
-
-
