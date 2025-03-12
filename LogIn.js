@@ -6,6 +6,8 @@ function checklog(){
 
     console.log(username);
     console.log(PassWord);
+
+    window.location.assign("MainPage.html");
 }
 
 logInButton.addEventListener("click",checklog);
