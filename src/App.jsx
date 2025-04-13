@@ -7,11 +7,8 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Note from './components/Note'
 import Notification from './components/Notification'
-import { useNavigate } from "react-router";
-
-
-// the service for the notes resource defines the interactions with the API and separates concerns of the backend fetching from the UI
-import noteService from './services/notes'
+import { useNavigate } from "react-router"
+import cadetsService from './services/cadets'
 
 const App = () => {
 
@@ -27,7 +24,6 @@ const App = () => {
   let navigate = useNavigate();
   const login = (event) => {
     event.preventDefault()
-    console.log(event.target)
     // Validate here
     // if user + pass is in data base, then let them through
     // 
@@ -35,19 +31,19 @@ const App = () => {
     navigate("/InputBone");
   }
   // // this webhook sets the initial notes from the db and updates them (via the setNotes function) when a new note is added
-  // const [notes, setNotes] = useState([])
+  const [cadets, setCadets] = useState([])
   // // this webhook sets the inputs as a user updates them on the page (via the setInputs function)
   // const [inputs, setInputs] = useState({})
   // // this webhook sets an error message when an error is issued
   // const [errorMessage, setErrorMessage] = useState(null)
 
   // // get all the resources currently stored in the db for processing; this action occurs on the page load
-  // useEffect(() => {
-  //   noteService.getAll().then((initialNotes) => {
-  //     setNotes(initialNotes)
-  //   })
-  // }, [])
-
+  useEffect(() => {
+    cadetsService.getAll().then((initialCadets) => {
+      setCadets(initialCadets)
+    })
+  }, [])
+  console.log("cadets",cadets)
   // // set the inputs as name/value pairs as they are updated by the user
   // const handleChange = (event) => {
   //   const name = event.target.name
