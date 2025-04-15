@@ -1,5 +1,8 @@
+import { useLocation } from 'react';
 const InputBone = () => {
-
+    //const {state} = useLocation();
+    //const { cadet } = state;
+    //console.log(cadet);
     return (
         <div>
             <form>

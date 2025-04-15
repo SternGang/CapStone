@@ -1,17 +1,12 @@
 const Notification = ({ message }) => {
-  const notificationStyle = {
-    color: 'red',
-    fontSize: 20,
-    borderStyle: 'solid',
-    padding: 10,
-    marginBottom: 10
-  }
 
   if (message === null) {
     return null
   }
 
-  return <div style={notificationStyle}>{message}</div>
+  return (
+      <div className="is-size-2 has-text-danger has-text-centered" color>{message}</div>
+  )
 }
 
 export default Notification

@@ -18,24 +18,42 @@ const App = () => {
     const name = event.target.name
     const value = event.target.value
     setInputs(values => ({ ...values, [name]: value }))
-    console.log(inputs)
   }
 
   let navigate = useNavigate();
   const login = (event) => {
+    setErrorMessage(null)
     event.preventDefault()
+    console.log(inputs)
+    console.log(cadets)
+    const foundCadet = cadets.find(cadet => cadet.userEmail === inputs.email)
+    if (foundCadet){
+      console.log("found",foundCadet )
+      if (foundCadet.Password === inputs.password) {
+        console.log("password checks out",inputs.password)
+        //navigate("/InputBone")
+        navigate('/InputBone', { state: { cadet: foundCadet.id } } );
+
+      } else {
+        console.log("bad password")
+        setErrorMessage("Password incorrect")
+      }
+    } else {
+      console.log("could not find cadet")
+      setErrorMessage("Unknown userid")
+    }
     // Validate here
     // if user + pass is in data base, then let them through
     // 
 
-    navigate("/InputBone");
+   
   }
   // // this webhook sets the initial notes from the db and updates them (via the setNotes function) when a new note is added
   const [cadets, setCadets] = useState([])
   // // this webhook sets the inputs as a user updates them on the page (via the setInputs function)
   // const [inputs, setInputs] = useState({})
   // // this webhook sets an error message when an error is issued
-  // const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   // // get all the resources currently stored in the db for processing; this action occurs on the page load
   useEffect(() => {
@@ -43,7 +61,7 @@ const App = () => {
       setCadets(initialCadets)
     })
   }, [])
-  console.log("cadets",cadets)
+
   // // set the inputs as name/value pairs as they are updated by the user
   // const handleChange = (event) => {
   //   const name = event.target.name
@@ -83,6 +101,11 @@ const App = () => {
   return (
     <div>
       <h1 className="is-size-2 has-text-centered">Login</h1>
+      <div className="column is-1"></div>
+
+      <Notification message={errorMessage}/>
+      <div className="column is-1"></div>
+
       <form onSubmit={login}>
         <div className="field container is-max-tablet">
           <label>USERNAME</label>
@@ -98,6 +121,7 @@ const App = () => {
         </div>
       </form>
 
+     
     </div >
   )
 }
