@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = '/api/Events'
+const baseUrl = '/api/Bones'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
