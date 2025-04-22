@@ -16,14 +16,26 @@ const InputBone = () => {
     const PostBone = (event) => {
         setErrorMessage(null)
         event.preventDefault()
-        // // get cadet ID from the name of the cadet 
-        // get the bone ID from the bone code 
-        // post a new event which links the cadet to a bone
+        const foundCadet = cadets.find(cadet => cadet.userEmail === inputs.email)
+        const foundBone = Bone.find(Bone => Bone.Name === inputs.Name)
 
+        if (foundCadet){
+            console.log("found",foundCadet )
+          } else {
+            console.log("could not find cadet")
+            setErrorMessage("Unknown Cadet")
+          }
 
-        // try catch to ensure that bones and cadet are both valid inputs 
-        // throw error if not
+          if (foundBone){
+              console.log("BONNNNNED")
+              setErrorMessage("You have been boned")
+          } else {
+            console.log("could not find Bone")
+            setErrorMessage("Unknown bone Name")
+          }
+
         
+        //event.post(cadet.find(cadet.CadetId),bone.find(bone.BoneID))
 
 
 
