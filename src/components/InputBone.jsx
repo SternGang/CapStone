@@ -1,4 +1,7 @@
-import { useLocation } from 'react';
+import { useLocation, useState,useEffect} from 'react';
+import { useNavigate } from "react-router"
+import cadetsService from '../services/cadets'
+import bonesService from '../services/Bones'
 const InputBone = () => {
     //const {state} = useLocation();
     //const { cadet } = state;
@@ -13,11 +16,11 @@ const InputBone = () => {
     }
 
     let navigate = useNavigate();
-    const PostBone = (event) => {
+    const postBone = (event) => {
         setErrorMessage(null)
         event.preventDefault()
-        const foundCadet = cadets.find(cadet => cadet.userEmail === inputs.email)
-        const foundBone = Bone.find(Bone => Bone.Name === inputs.Name)
+        const foundCadet = cadets.find(cadet => cadet.name === inputs.name)
+        const foundBone = bones.find(Bone => Bone.BoneCode === inputs.BoneCode)
 
         if (foundCadet){
             console.log("found",foundCadet )
@@ -28,26 +31,34 @@ const InputBone = () => {
 
           if (foundBone){
               console.log("BONNNNNED")
-              setErrorMessage("You have been boned")
           } else {
             console.log("could not find Bone")
             setErrorMessage("Unknown bone Name")
           }
 
         
-        //event.post(cadet.find(cadet.CadetId),bone.find(bone.BoneID))
+        Events.post(foundCadet.CadetID,foundBone.BoneID)
 
 
 
     }
     // // this webhook sets the initial notes from the db and updates them (via the setNotes function) when a new note is added
     const [cadets, setCadets] = useState([])
+    const [bones, setBones] = useState([])
     // // this webhook sets the inputs as a user updates them on the page (via the setInputs function)
     // const [inputs, setInputs] = useState({})
     // // this webhook sets an error message when an error is issued
     const [errorMessage, setErrorMessage] = useState(null)
 
 
+useEffect(() => {
+    cadetsService.getAll().then((initialCadets) => {
+      setCadets(initialCadets)
+    })
+    bonesService.getAll().then((initialBones)=>{
+        setBones(initialBones)
+    })
+  }, [])
 
 
     return (
@@ -80,7 +91,7 @@ const InputBone = () => {
 
             <div className="column is-4"></div>
             <div className="column is-4"></div>
-            <form onSubmit={PostBone}>
+            <form onSubmit={postBone}>
                 <div className="columns is-gapless">
                     <div className="column is-2"></div>
                     <div className="field container column is-1">

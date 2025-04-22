@@ -23,6 +23,7 @@ const getByID = (id) => {
 }
 
 export default {
+  getByID,
   getAll,
   create,
   update,
