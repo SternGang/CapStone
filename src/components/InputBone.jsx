@@ -1,6 +1,7 @@
 import {  useState, useEffect } from 'react';
 import cadetsService from '../services/cadets'
 import bonesService from '../services/Bones'
+import Events from '../services/Events';
 const InputBone = () => {
 
     const [inputs, setInputs] = useState({})
@@ -27,13 +28,13 @@ const InputBone = () => {
             setErrorMessage("Unknown Cadet")
         }
 
-        if (foundBone) {
+        if (foundBone && foundCadet) {
             console.log("BONNNNNED")
         } else {
             console.log("could not find Bone")
             setErrorMessage("Unknown bone Name")
         }
-        event.post(foundCadet.CadetID, foundBone.BoneID)
+        Events.create(foundCadet.CadetID, foundBone.BoneID)
     }
     const [cadets, setCadets] = useState([])
     const [bones, setBones] = useState([])
