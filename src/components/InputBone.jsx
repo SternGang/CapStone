@@ -1,69 +1,58 @@
-import { useLocation, useState,useEffect} from 'react';
-import { useNavigate } from "react-router"
+import {  useState, useEffect } from 'react';
 import cadetsService from '../services/cadets'
 import bonesService from '../services/Bones'
 const InputBone = () => {
-    //const {state} = useLocation();
-    //const { cadet } = state;
-    //console.log(cadet);
 
     const [inputs, setInputs] = useState({})
 
     const handleChange = (event) => {
+        console.log(event)
         const name = event.target.name
         const value = event.target.value
         setInputs(values => ({ ...values, [name]: value }))
+        console.log(inputs)
     }
 
-    let navigate = useNavigate();
+    //let navigate = useNavigate();
     const postBone = (event) => {
         setErrorMessage(null)
         event.preventDefault()
         const foundCadet = cadets.find(cadet => cadet.name === inputs.name)
         const foundBone = bones.find(Bone => Bone.BoneCode === inputs.BoneCode)
-
-        if (foundCadet){
-            console.log("found",foundCadet )
-          } else {
+        console.log(inputs)
+        if (foundCadet) {
+            console.log("found", foundCadet)
+        } else {
             console.log("could not find cadet")
             setErrorMessage("Unknown Cadet")
-          }
+        }
 
-          if (foundBone){
-              console.log("BONNNNNED")
-          } else {
+        if (foundBone) {
+            console.log("BONNNNNED")
+        } else {
             console.log("could not find Bone")
             setErrorMessage("Unknown bone Name")
-          }
-
-        
-        Events.post(foundCadet.CadetID,foundBone.BoneID)
-
-
-
+        }
+        event.post(foundCadet.CadetID, foundBone.BoneID)
     }
-    // // this webhook sets the initial notes from the db and updates them (via the setNotes function) when a new note is added
     const [cadets, setCadets] = useState([])
     const [bones, setBones] = useState([])
-    // // this webhook sets the inputs as a user updates them on the page (via the setInputs function)
-    // const [inputs, setInputs] = useState({})
-    // // this webhook sets an error message when an error is issued
     const [errorMessage, setErrorMessage] = useState(null)
 
 
-useEffect(() => {
-    cadetsService.getAll().then((initialCadets) => {
-      setCadets(initialCadets)
-    })
-    bonesService.getAll().then((initialBones)=>{
-        setBones(initialBones)
-    })
-  }, [])
+    useEffect(() => {
+        cadetsService.getAll().then((initialCadets) => {
+            setCadets(initialCadets)
+        })
+        bonesService.getAll().then((initialBones) => {
+            setBones(initialBones)
+        })
+    }, [])
 
 
     return (
         <div>
-            <form>
+            <form onSubmit={postBone}>
                 <div className="column is-1"></div>
                 <div className="column is-1"></div>
                 <div className="column is-1"></div>
@@ -72,7 +61,8 @@ useEffect(() => {
                 <div className="columns">
                     <div className="field container column is-one-fifth">
                         <label>NAME</label>
-                        <input type="text" className="input" placeholder="Ex. Raj Singh" />
+                        <input name="name" type="text" id="name" className="input" placeholder="Ex. Raj Singh" value={inputs.name || ''} onChange={handleChange} />
+                        
                     </div>
                     <div className="field container column is-one-fifth">
                         <label>CLASS</label>
@@ -80,35 +70,32 @@ useEffect(() => {
                     </div>
                     <div className="field container  column is-one-fifth">
                         <label>COMPANY</label>
-                        <input type="text" className="input" placeholder="Ex. Delta" />
+                        <input type="text" className="input" placeholder="Ex. Delta"  />
                     </div>
                 </div>
 
-            </form>
+                <div className="column is-1"></div>
+                <div className="column is-1"></div>
 
-            <div className="column is-1"></div>
-            <div className="column is-1"></div>
-
-            <div className="column is-4"></div>
-            <div className="column is-4"></div>
-            <form onSubmit={postBone}>
+                <div className="column is-4"></div>
+                <div className="column is-4"></div>
                 <div className="columns is-gapless">
                     <div className="column is-2"></div>
-                    <div className="field container column is-1">
+                    <div className="field container column is-1">   
                         <label>Code</label>
-                        <input type="text" className="input" placeholder="Ex. M2000" onChange={handleChange}/>
+                        <input name="BoneCode" type="text" id="BoneCode" className="input" placeholder="Ex. M2000" value={inputs.BoneCode || ''} onChange={handleChange}/>
                     </div>
                     <div className="field container column is-3">
                         <label>Bone Name</label>
-                        <input type="text" className="input" placeholder="Ex. Improper Shave" onChange={handleChange}/>
+                        <input type="text" className="input" placeholder="Ex. Improper Shave" />
                     </div>
                     <div className="field container column is-1">
                         <label>Demerits</label>
-                        <input type="text" className="input" placeholder="Ex. 0" onChange={handleChange}/>
+                        <input type="text" className="input" placeholder="Ex. 0"  />
                     </div>
                     <div className="field container column is-1">
                         <label>PTs</label>
-                        <input type="text" className="input" placeholder="Ex. 3" onChange={handleChange} />
+                        <input type="text" className="input" placeholder="Ex. 3"  />
                     </div>
                 </div>
 
@@ -118,9 +105,9 @@ useEffect(() => {
                 </div>
 
                 <div className="has-text-centered">
-                    <button className="button is-primary">Submit</button>
+                    <button type="submit" className="button is-primary">Submit</button>
                 </div>
-                </form >
+            </form >
         </div>
     )
 }

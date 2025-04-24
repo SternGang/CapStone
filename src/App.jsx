@@ -18,6 +18,7 @@ const App = () => {
     const name = event.target.name
     const value = event.target.value
     setInputs(values => ({ ...values, [name]: value }))
+    console.log(inputs)
   }
 
   let navigate = useNavigate();
