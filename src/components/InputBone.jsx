@@ -28,13 +28,18 @@ const InputBone = () => {
             setErrorMessage("Unknown Cadet")
         }
 
-        if (foundBone && foundCadet) {
+        if (foundBone) {
+            console.log("found", foundBone)
             console.log("BONNNNNED")
         } else {
             console.log("could not find Bone")
             setErrorMessage("Unknown bone Name")
         }
-        Events.create(foundCadet.CadetID, foundBone.BoneID)
+        const newObject = {
+            CadetID: foundCadet.id,
+            BoneCode: foundBone.BoneCode
+        }
+        Events.create(newObject)
     }
     const [cadets, setCadets] = useState([])
     const [bones, setBones] = useState([])
